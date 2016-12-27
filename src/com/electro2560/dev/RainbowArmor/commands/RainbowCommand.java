@@ -19,24 +19,19 @@ public class RainbowCommand implements CommandExecutor{
 	
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args){
 		
-		//TODO: This is code over two years old. It is currently being rewritten to my new standards.
-		
-		/*if(args.length == 0){
-			//TODO
-			
-			
+		if(args.length == 0){
+			sender.sendMessage("§c-§6-§e- §a§lR§b§la§d§li§c§ln§6§lb§e§lo§a§lw §b§lA§d§lr§c§lm§6§lo§e§lr §a-§b-§d- §cb§6y §e§lE§a§ll§b§le§d§lc§c§lt§6§lr§e§lo§a§lB§b§lo§d§ly§c§l2§6§l5§e§l6§a§l0");
+			sender.sendMessage(ChatColor.AQUA + "equip, get, give, reset, set");
 			return false;
-		}*/
+		}
+		
+
+		//TODO: The code below is over two years old. It is currently being rewritten to my new standards.
+		
 		
 		if(sender instanceof Player){
 			Player player = (Player) sender;
 				if(sender.hasPermission(Perms.canUseCommand) || sender.hasPermission(Perms.canUseAll)){
-						if(args.length == 0){
-							player.sendMessage("§c-§6-§e- §a§lR§b§la§d§li§c§ln§6§lb§e§lo§a§lw §b§lA§d§lr§c§lm§6§lo§e§lr §a-§b-§d- §cb§6y §e§lE§a§ll§b§le§d§lc§c§lt§6§lr§e§lo§a§lB§b§lo§d§ly§c§l2§6§l5§e§l6§a§l0");
-							player.sendMessage(ChatColor.AQUA + "equip, get, give, reset, set");
-							return false;
-						}
-							
 						if(args[0].equalsIgnoreCase("equip") || args[0].equalsIgnoreCase("get") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("reset")){
 							
 						}else player.sendMessage(ChatColor.RED + "Error: Unknown Option!");
@@ -210,10 +205,6 @@ public class RainbowCommand implements CommandExecutor{
 				}
 			}else{
 				//TODO: Console stuff
-					if(args.length == 0){
-						Bukkit.getConsoleSender().sendMessage("§c-§6-§e- §a§lR§b§la§d§li§c§ln§6§lb§e§lo§a§lw §b§lA§d§lr§c§lm§6§lo§e§lr §a-§b-§d- §cb§6y §e§lE§a§ll§b§le§d§lc§c§lt§6§lr§e§lo§a§lB§b§lo§d§ly§c§l2§6§l5§e§l6§a§l0");
-						Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "equip, give, reset, set");
-					}
 						
 					if(args[0].equalsIgnoreCase("equip") || args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("get") || args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("reset")){
 						
