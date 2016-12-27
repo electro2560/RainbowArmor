@@ -94,7 +94,7 @@ public class RainbowCommand implements CommandExecutor{
 									|| args[2].equalsIgnoreCase("Yellow") || args[2].equalsIgnoreCase("Lime")
 									|| args[2].equalsIgnoreCase("LightBlue") || args[2].equalsIgnoreCase("Magenta")
 									|| args[2].equalsIgnoreCase("Pink") || args[2].equalsIgnoreCase("White"))
-								Utils.setterHandler(player, args[2], args[3], args[4]);
+								Utils.setterHandler(sender, args[2], args[3], args[4]);
 							else if(!args[1].equalsIgnoreCase("Speed")) sender.sendMessage(ChatColor.RED + "Error: Unknow Color!");
 						}else if(!args[1].equalsIgnoreCase("Speed")) sender.sendMessage(ChatColor.RED + "Error: Not a Valid Argument!");
 					}

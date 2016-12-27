@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -82,8 +83,6 @@ public class Utils {
 				
 		rainbowArmor.saveConfig();
 		rainbowArmor.reloadConfig();
-				
-		
 		
 		//We need to restart the timer...
 		createTimerTask();
@@ -126,36 +125,21 @@ public class Utils {
 		return i;
 	}
 	
-	//TODO: This can be cleaned up quite a bit. I'll push an update to this soon. This code is around 2 years old...
-	public static void setterHandler(Player player, String color, String RGB, String value){
+	public static void setterHandler(CommandSender sender, String color, String RGB, String value){
 		RGB = RGB.toLowerCase();
 		color = color.toUpperCase();
 		
-		if((player instanceof Player) && !(player == null)){
-			if(RGB.equals("r") || RGB.equals("g") || RGB.equals("b")){
-				if(isNumeric(value)){
-					int INTnumber = Integer.parseInt(value);
-					if(isBetween(-1, 256, INTnumber)){
-						config.set("Colors." + color + "." + RGB, INTnumber);
-						rainbowArmor.saveConfig();
-						player.sendMessage("§sColor value " + RGB + " of " + color + " set to " + INTnumber);
-					}else player.sendMessage("§cError: Value must be between 0 and 255!");
-				}else player.sendMessage("§cError: Invalid value!");
-			}else player.sendMessage("§cError: Must be r, g, or b");
-		}else{
-			//Console
-			if(RGB.equals("r") || RGB.equals("g") || RGB.equals("b")){
-				if(isNumeric(value)){
-					int INTnumber = Integer.parseInt(value);
+		if(RGB.equals("r") || RGB.equals("g") || RGB.equals("b")){
+			if(isNumeric(value)){
+				int INTnumber = Integer.parseInt(value);
+				if(isBetween(-1, 256, INTnumber)){
+					config.set("Colors." + color + "." + RGB, INTnumber);
+					rainbowArmor.saveConfig();
 					
-					if(isBetween(-1, 256, INTnumber)){
-						config.set("Colors." + color + "." + RGB, INTnumber);
-						rainbowArmor.saveConfig();
-						Bukkit.getConsoleSender().sendMessage("§aColor value " + RGB + " of " + color + " set to " + INTnumber);
-					}else Bukkit.getConsoleSender().sendMessage("§cError: Value must be between 0 and 255!");
-				}else Bukkit.getConsoleSender().sendMessage("§cError: Invalid value!");
-			}else Bukkit.getConsoleSender().sendMessage("§cError: Must be r, g, or b");
-		}
+					sender.sendMessage("§sColor value " + RGB + " of " + color + " set to " + INTnumber);
+				}else sender.sendMessage("§cError: Value must be between 0 and 255!");
+			}else sender.sendMessage("§cError: Invalid value!");
+		}else sender.sendMessage("§cError: Must be r, g, or b");
 		
 	}
 	
@@ -176,6 +160,7 @@ public class Utils {
 			public void run() {
 				
 				//Let's determine what color to use
+				//TODO: Load the armor colors into memory rather than reading from the config each time?
 				switch (value) {
 				case 1:
 					armorColor = Color.fromRGB(config.getInt("Colors.RED.r"), config.getInt("Colors.RED.g"), config.getInt("Colors.RED.b"));
