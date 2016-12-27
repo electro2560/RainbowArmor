@@ -1,0 +1,35 @@
+checkForUpdates: true
+Colors:
+  RED:
+    r: 255
+    g: 0
+    b: 8
+  ORANGE:
+    r: 255
+    g: 123
+    b: 0
+  YELLOW:
+    r: 255
+    g: 255
+    b: 0
+  LIME:
+    r: 68
+    g: 255
+    b: 0
+  LIGHTBLUE:
+    r: 0
+    g: 247
+    b: 255
+  MAGENTA:
+    r: 204
+    g: 0
+    b: 255
+  PINK:
+    r: 255
+    g: 0
+    b: 230
+  WHITE:
+    r: 255
+    g: 255
+    b: 255
+SPEED: 10
