@@ -19,7 +19,7 @@ import com.electro2560.dev.RainbowArmor.RainbowArmor;
 public class UpdateUtil {
 	public static final String PREFIX = "§a§l[RainbowArmor] §a";
 	private static final String URL = "http://dev.electro2560.com/plugins/RainbowArmor/info.json";
-
+	
 	public static void sendUpdateMessage(final Player p, final Plugin plugin) {
 		new BukkitRunnable() {
 			public void run() {
