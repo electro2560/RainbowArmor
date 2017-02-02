@@ -70,7 +70,9 @@ public class UpdateUtil {
 		try {
 			URL url = new URL(URL);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setDoOutput(true);
+			connection.setUseCaches(true);
+  			connection.addRequestProperty("User-Agent", "RainbowArmor " + RainbowArmor.get().getVersion());
+  			connection.setDoOutput(true);
 			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
 			String content = "";
@@ -100,7 +102,9 @@ public class UpdateUtil {
 		try {
 			URL url = new URL(URL);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setDoOutput(true);
+			connection.setUseCaches(true);
+  			connection.addRequestProperty("User-Agent", "RainbowArmor " + RainbowArmor.get().getVersion());
+  			connection.setDoOutput(true);
 			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
 			String content = "";
