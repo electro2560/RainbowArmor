@@ -1,4 +1,5 @@
 checkForUpdates: true
+useMetrics: true
 Colors:
   RED:
     r: 255

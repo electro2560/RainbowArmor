@@ -1,8 +1,11 @@
 package com.electro2560.dev.RainbowArmor.utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bstats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -12,13 +15,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.mcstats.MetricsLite;
 
 import com.electro2560.dev.RainbowArmor.RainbowArmor;
 
 public class Utils {
 
-	static RainbowArmor rainbowArmor = RainbowArmor.get(); 
-	static FileConfiguration config = rainbowArmor.getConfig();
+	private static FileConfiguration config = RainbowArmor.get().getConfig();
 	
 	public static final String rainbowLore = "§c§lR§6§la§e§li§a§ln§b§lb§d§lo§c§lw §6§lA§e§lr§a§lm§b§lo§d§lr";
 	
@@ -35,54 +38,14 @@ public class Utils {
 	    return b > a ? c > a && c < b : c > b && c < a;
 	}
 	
-	//TODO: Surely there must be a better way to do this....
 	public static void resetConfig(){
-		config.set("checkForUpdates", true);
+		File conf = new File(RainbowArmor.get().getDataFolder() + File.separator + "config.yml");
 		
-		//RED
-		config.set("Colors.RED.r", 255);
-		config.set("Colors.RED.g", 0);
-		config.set("Colors.RED.b", 8);
+		if(conf.exists()) conf.delete();
 		
-		//ORANGE
-		config.set("Colors.ORANGE.r", 255);
-		config.set("Colors.ORANGE.g", 123);
-		config.set("Colors.ORANGE.b", 0);
-		
-		//YELLOW
-		config.set("Colors.YELLOW.r", 255);
-		config.set("Colors.YELLOW.g", 255);
-		config.set("Colors.YELLOW.b", 0);
-		
-		//LIME
-		config.set("Colors.LIME.r", 68);
-		config.set("Colors.LIME.g", 255);
-		config.set("Colors.LIME.b", 0);
-		
-		//LIGHT BLUE
-		config.set("Colors.LIGHTBLUE.r", 0);
-		config.set("Colors.LIGHTBLUE.g", 247);
-		config.set("Colors.LIGHTBLUE.b", 255);
-		
-		//MAGENTA
-		config.set("Colors.MAGENTA.r", 204);
-		config.set("Colors.MAGENTA.g", 0);
-		config.set("Colors.MAGENTA.b", 255);
-		
-		//PINK
-		config.set("Colors.PINK.r", 255);
-		config.set("Colors.PINK.g", 0);
-		config.set("Colors.PINK.b", 230);
-		
-		//WHITE
-		config.set("Colors.WHITE.r", 255);
-		config.set("Colors.WHITE.g", 255);
-		config.set("Colors.WHITE.b", 255);
-		
-		config.set("Speed", 10);
-				
-		rainbowArmor.saveConfig();
-		rainbowArmor.reloadConfig();
+		RainbowArmor.get().saveDefaultConfig();
+
+		RainbowArmor.get().reloadConfig();
 		
 		//We need to restart the timer...
 		createTimerTask();
@@ -134,7 +97,7 @@ public class Utils {
 				int INTnumber = Integer.parseInt(value);
 				if(isBetween(-1, 256, INTnumber)){
 					config.set("Colors." + color + "." + RGB, INTnumber);
-					rainbowArmor.saveConfig();
+					RainbowArmor.get().saveConfig();
 					
 					sender.sendMessage("§sColor value " + RGB + " of " + color + " set to " + INTnumber);
 				}else sender.sendMessage("§cError: Value must be between 0 and 255!");
@@ -146,7 +109,6 @@ public class Utils {
 	public static boolean isCheckForUpdates() {
 		return config.getBoolean("checkForUpdates", true);
 	}
-
 	
 	public static int value = 1;
 	public static Color armorColor;
@@ -201,11 +163,25 @@ public class Utils {
 				}
 				
 				//Let's increment so we know which color to use next
-				if(value != 8) value++;	
+				if(value != 8) value++;
 				else value = 1;
 				
 			}
 		}, 0, RainbowArmor.get().getConfig().getInt("SPEED"));
+	}
+
+	public static String getVersion() {
+		return RainbowArmor.get().getDescription().getVersion();
+	}
+	
+	public static void startMetrics(){
+		try {
+	        MetricsLite metrics = new MetricsLite(RainbowArmor.get());
+	        metrics.start();
+	    } catch (IOException e) {}
+		
+		@SuppressWarnings("unused")
+		Metrics metrics = new Metrics(RainbowArmor.get());
 	}
 	
 }

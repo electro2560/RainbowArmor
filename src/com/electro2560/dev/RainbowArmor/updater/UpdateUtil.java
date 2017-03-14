@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -14,12 +15,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.electro2560.dev.RainbowArmor.RainbowArmor;
+import com.electro2560.dev.RainbowArmor.utils.Utils;
 
 public class UpdateUtil {
 	public static final String PREFIX = "§a§l[RainbowArmor] §a";
 	private static final String URL = "http://dev.electro2560.com/plugins/RainbowArmor/info.json";
-	
+
 	public static void sendUpdateMessage(final Player p, final Plugin plugin) {
 		new BukkitRunnable() {
 			public void run() {
@@ -38,22 +39,21 @@ public class UpdateUtil {
 	private static String getUpdateMessage(boolean console) {
 		console = true;
 		String newestString = getNewestVersion();
-
 		if (newestString == null) {
 			if (console) return "Could not check for updates, check your connection.";
 			else return null;
 		}
-
+		
 		Version current;
-
+		
 		try {
-			current = new Version(RainbowArmor.get().getVersion());
+			current = new Version(Utils.getVersion());
 		} catch (IllegalArgumentException e) {
 			return "You are using a debug/custom version, consider updating.";
 		}
-
+		
 		Version newest = new Version(newestString);
-
+		
 		if (current.compareTo(newest) < 0) {
 			String updates = "\n";
 			for (String s : getChanges()) {
@@ -62,7 +62,7 @@ public class UpdateUtil {
 			}
 			return "There is a newer version available: " + newest.toString() + updates;
 		} else if (console && current.compareTo(newest) != 0) return "You are running a newer version than is released!";
-
+		
 		return null;
 	}
 
@@ -71,30 +71,28 @@ public class UpdateUtil {
 			URL url = new URL(URL);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setUseCaches(true);
-  			connection.addRequestProperty("User-Agent", "RainbowArmor " + RainbowArmor.get().getVersion());
-  			connection.setDoOutput(true);
+			connection.addRequestProperty("User-Agent", "ForceGrow " + Utils.getVersion());
+			connection.setDoOutput(true);
 			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
 			String content = "";
 			String input;
-
-			while ((input = br.readLine()) != null) content += input;
-
+			while ((input = br.readLine()) != null) content = content + input;
 			br.close();
 			JSONParser parser = new JSONParser();
 			JSONObject statistics;
-
 			try {
 				statistics = (JSONObject) parser.parse(content);
 			} catch (ParseException e) {
 				e.printStackTrace();
 				return null;
 			}
-
 			return (String) statistics.get("version");
-		} catch (IOException e) {
+		} catch (MalformedURLException e) {
 			return null;
-		}
+		} catch (IOException e) { }
+		
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -103,31 +101,29 @@ public class UpdateUtil {
 			URL url = new URL(URL);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setUseCaches(true);
-  			connection.addRequestProperty("User-Agent", "RainbowArmor " + RainbowArmor.get().getVersion());
-  			connection.setDoOutput(true);
+			connection.addRequestProperty("User-Agent", "ForceGrow " + Utils.getVersion());
+			connection.setDoOutput(true);
 			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
 			String content = "";
 			String input;
-
-			while ((input = br.readLine()) != null)
-				content += input;
-
+			while ((input = br.readLine()) != null) content += input;
 			br.close();
 			JSONParser parser = new JSONParser();
 			JSONObject statistics;
-
+			
 			try {
 				statistics = (JSONObject) parser.parse(content);
 			} catch (ParseException e) {
 				e.printStackTrace();
 				return null;
 			}
-
+			
 			return (ArrayList<String>) statistics.get("message");
-		} catch (IOException e) {
+		} catch (MalformedURLException e) {
 			return null;
-		}
+		} catch (IOException e) { }
+		
+		return null;
 	}
-
 }

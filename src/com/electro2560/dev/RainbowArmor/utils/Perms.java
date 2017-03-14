@@ -14,6 +14,6 @@ public class Perms {
 	
 	public static Permission canUseAll = new Permission("rainbowarmor.*");
 	
-	public static Permission canCheckForUpdates = new Permission("rainbowarmor.checkforupdates");
+	public static Permission canCheckForUpdates = new Permission("rainbowarmor.updates");
 	
 }

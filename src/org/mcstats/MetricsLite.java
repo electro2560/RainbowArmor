@@ -26,7 +26,7 @@
  * either expressed or implied, of anybody else.
  */
 
-package com.electro2560.dev.RainbowArmor.utils;
+package org.mcstats;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
