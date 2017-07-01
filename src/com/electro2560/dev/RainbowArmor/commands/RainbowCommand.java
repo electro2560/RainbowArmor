@@ -44,10 +44,10 @@ public class RainbowCommand implements CommandExecutor{
 						player.sendMessage(ChatColor.RED + "Error: You must use /RainbowArmor give to give a player rainbow armor!");
 					}else player.sendMessage(ChatColor.RED + "Error: This command doesn't use any arguments!");
 				}else{
-					player.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_HELMET, null, player, false));
-					player.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_CHESTPLATE, null, player, false));
-					player.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_LEGGINGS, null, player, false));
-					player.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_BOOTS, null, player, false));
+					player.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_HELMET));
+					player.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_CHESTPLATE));
+					player.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_LEGGINGS));
+					player.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_BOOTS));
 								
 					player.sendMessage(ChatColor.GREEN + "You received rainbow armor!");	
 				}
@@ -65,10 +65,10 @@ public class RainbowCommand implements CommandExecutor{
 				Player targetPlayer = Bukkit.getServer().getPlayerExact(args[1]);
 				
 				if(targetPlayer != null){
-					targetPlayer.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_HELMET, null, targetPlayer, false));
-					targetPlayer.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_CHESTPLATE, null, targetPlayer, false));
-					targetPlayer.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_LEGGINGS, null, targetPlayer, false));
-					targetPlayer.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_BOOTS, null, targetPlayer, false));
+					targetPlayer.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_HELMET));
+					targetPlayer.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_CHESTPLATE));
+					targetPlayer.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_LEGGINGS));
+					targetPlayer.getInventory().addItem(Utils.getColorArmor(Material.LEATHER_BOOTS));
 							
 					targetPlayer.sendMessage(ChatColor.GREEN + "You received rainbow armor!");
 					sender.sendMessage(ChatColor.GREEN + "Given rainbow armor to " + args[1]);
@@ -142,10 +142,10 @@ public class RainbowCommand implements CommandExecutor{
 						if(args[2].equalsIgnoreCase("Replace")){
 							Player targetPlayer = Bukkit.getServer().getPlayerExact(args[1]);
 							
-							targetPlayer.getInventory().setHelmet(Utils.getColorArmor(Material.LEATHER_HELMET, null, targetPlayer, false));
-							targetPlayer.getInventory().setChestplate(Utils.getColorArmor(Material.LEATHER_CHESTPLATE, null, targetPlayer, false));
-							targetPlayer.getInventory().setLeggings(Utils.getColorArmor(Material.LEATHER_LEGGINGS, null, targetPlayer, false));
-							targetPlayer.getInventory().setBoots(Utils.getColorArmor(Material.LEATHER_BOOTS, null, targetPlayer, false));
+							targetPlayer.getInventory().setHelmet(Utils.getColorArmor(Material.LEATHER_HELMET));
+							targetPlayer.getInventory().setChestplate(Utils.getColorArmor(Material.LEATHER_CHESTPLATE));
+							targetPlayer.getInventory().setLeggings(Utils.getColorArmor(Material.LEATHER_LEGGINGS));
+							targetPlayer.getInventory().setBoots(Utils.getColorArmor(Material.LEATHER_BOOTS));
 								
 							targetPlayer.sendMessage(ChatColor.GREEN + "You received rainbow armor!");
 							sender.sendMessage(ChatColor.GREEN + "Given rainbow armor to " + args[1]);
@@ -168,10 +168,10 @@ public class RainbowCommand implements CommandExecutor{
 								targetPlayer.getInventory().addItem(targetPlayer.getInventory().getBoots());
 							}catch(Exception e){}
 							
-							targetPlayer.getInventory().setHelmet(Utils.getColorArmor(Material.LEATHER_HELMET, null, targetPlayer, false));
-							targetPlayer.getInventory().setChestplate(Utils.getColorArmor(Material.LEATHER_CHESTPLATE, null, targetPlayer, false));
-							targetPlayer.getInventory().setLeggings(Utils.getColorArmor(Material.LEATHER_LEGGINGS, null, targetPlayer, false));
-							targetPlayer.getInventory().setBoots(Utils.getColorArmor(Material.LEATHER_BOOTS, null, targetPlayer, false));
+							targetPlayer.getInventory().setHelmet(Utils.getColorArmor(Material.LEATHER_HELMET));
+							targetPlayer.getInventory().setChestplate(Utils.getColorArmor(Material.LEATHER_CHESTPLATE));
+							targetPlayer.getInventory().setLeggings(Utils.getColorArmor(Material.LEATHER_LEGGINGS));
+							targetPlayer.getInventory().setBoots(Utils.getColorArmor(Material.LEATHER_BOOTS));
 								
 							targetPlayer.sendMessage(ChatColor.GREEN + "You received rainbow armor!");
 							sender.sendMessage(ChatColor.GREEN + "Given rainbow armor to " + args[1]);

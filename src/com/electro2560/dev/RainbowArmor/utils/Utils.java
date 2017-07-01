@@ -2,8 +2,6 @@ package com.electro2560.dev.RainbowArmor.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.bstats.Metrics;
 import org.bukkit.Bukkit;
@@ -19,11 +17,14 @@ import org.mcstats.MetricsLite;
 
 import com.electro2560.dev.RainbowArmor.RainbowArmor;
 
+import de.tr7zw.itemnbtapi.NBTItem;
+
 public class Utils {
 
 	private static FileConfiguration config = RainbowArmor.get().getConfig();
 	
-	public static final String rainbowLore = "§c§lR§6§la§e§li§a§ln§b§lb§d§lo§c§lw §6§lA§e§lr§a§lm§b§lo§d§lr";
+	//Old. Used in version 1.5.0 and older. 1.6.0+ now uses NBT to keep track of rainbow armor. Keeping lore for legacy support checking
+	private static final String rainbowLore = "§c§lR§6§la§e§li§a§ln§b§lb§d§lo§c§lw §6§lA§e§lr§a§lm§b§lo§d§lr";
 	
 	public static boolean isNumeric(String input) {
 		try {
@@ -51,41 +52,35 @@ public class Utils {
 		createTimerTask();
 	}
 	
-	public static ItemStack getColorArmor(Material m, Color c, Player p, boolean setEnchants){
+	public static ItemStack getColorArmor(Material m){
 		ItemStack i = new ItemStack(m, 1);
 		LeatherArmorMeta meta = (LeatherArmorMeta) i.getItemMeta();
-		meta.setColor(c);
 		
-		List<String> lore = new ArrayList<String>();
-		lore.add(rainbowLore);
+		meta.setColor(armorColor);
 		
-		meta.setLore(lore);
+		//1.6.0+ now uses NBT rather than a lore
+		///List<String> lore = new ArrayList<String>();
+		///lore.add(rainbowLore);
+		///meta.setLore(lore);
 		
 		i.setItemMeta(meta);
 		
-		if(setEnchants){
-			switch (m) {
-			case LEATHER_HELMET:
-				i.addUnsafeEnchantments(p.getInventory().getHelmet().getEnchantments());
-				i.setDurability(p.getInventory().getHelmet().getDurability());
-				break;
-			case LEATHER_CHESTPLATE:
-				i.addUnsafeEnchantments(p.getInventory().getChestplate().getEnchantments());
-				i.setDurability(p.getInventory().getChestplate().getDurability());
-				break;
-			case LEATHER_LEGGINGS:
-				i.addUnsafeEnchantments(p.getInventory().getLeggings().getEnchantments());
-				i.setDurability(p.getInventory().getLeggings().getDurability());
-				break;
-			case LEATHER_BOOTS:
-				i.addUnsafeEnchantments(p.getInventory().getBoots().getEnchantments());
-				i.setDurability(p.getInventory().getBoots().getDurability());
-				break;
-			default: break;
-			}
-		}
+		//Only set the version tag if it's being created for the first time
+		NBTItem nbti = new NBTItem(i);
+		nbti.setString("RainbowArmor.version", getVersion());
+		i = nbti.getItem();
 		
 		return i;
+	}
+	
+	private static ItemStack setArmorColor(ItemStack item){
+		LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+
+		meta.setColor(armorColor);
+		
+		item.setItemMeta(meta);
+
+		return item;
 	}
 	
 	public static void setterHandler(CommandSender sender, String color, String RGB, String value){
@@ -105,6 +100,7 @@ public class Utils {
 		}else sender.sendMessage("§cError: Must be r, g, or b");
 		
 	}
+	
 	
 	public static boolean isCheckForUpdates() {
 		return config.getBoolean("checkForUpdates", true);
@@ -155,10 +151,36 @@ public class Utils {
 					if(p.hasPermission(Perms.canUse) || p.hasPermission(Perms.canUseAll)){
 						PlayerInventory i = p.getInventory();
 						
-						if (i.getHelmet() != null && i.getHelmet().getType() == Material.LEATHER_HELMET && i.getHelmet().getItemMeta().getLore().contains(rainbowLore)) i.setHelmet(Utils.getColorArmor(Material.LEATHER_HELMET, armorColor, p, true));
-						if (i.getChestplate() != null && i.getChestplate().getType() == Material.LEATHER_CHESTPLATE && i.getChestplate().getItemMeta().getLore().contains(rainbowLore)) i.setChestplate(Utils.getColorArmor(Material.LEATHER_CHESTPLATE, armorColor, p, true));
-						if (i.getLeggings() != null && i.getLeggings().getType() == Material.LEATHER_LEGGINGS && i.getLeggings().getItemMeta().getLore().contains(rainbowLore)) i.setLeggings(Utils.getColorArmor(Material.LEATHER_LEGGINGS, armorColor, p, true));
-						if (i.getBoots() != null && i.getBoots().getType() == Material.LEATHER_BOOTS && i.getBoots().getItemMeta().getLore().contains(rainbowLore)) i.setBoots(Utils.getColorArmor(Material.LEATHER_BOOTS, armorColor, p, true));
+						NBTItem nbti = null;
+						
+						if(i.getHelmet() != null) nbti = new NBTItem(i.getHelmet());
+						if (i.getHelmet() != null && i.getHelmet().getType() == Material.LEATHER_HELMET){
+							if((i.getHelmet().getItemMeta().getLore() != null && i.getHelmet().getItemMeta().getLore().contains(rainbowLore)) || nbti.hasKey("RainbowArmor.version")){
+								i.setHelmet(Utils.setArmorColor(i.getHelmet()));
+							}
+						}
+						
+						if(i.getChestplate() != null) nbti = new NBTItem(i.getChestplate());
+						if (i.getChestplate() != null && i.getChestplate().getType() == Material.LEATHER_CHESTPLATE){
+							if((i.getChestplate().getItemMeta().getLore() != null && i.getChestplate().getItemMeta().getLore().contains(rainbowLore)) || nbti.hasKey("RainbowArmor.version")){
+								i.setChestplate(Utils.setArmorColor(i.getChestplate()));
+							}
+						}
+						
+						if(i.getLeggings() != null) nbti = new NBTItem(i.getLeggings());
+						if (i.getLeggings() != null && i.getLeggings().getType() == Material.LEATHER_LEGGINGS){
+							if((i.getLeggings().getItemMeta().getLore() != null && i.getLeggings().getItemMeta().getLore().contains(rainbowLore)) || nbti.hasKey("RainbowArmor.version")){
+								i.setLeggings(Utils.setArmorColor(i.getLeggings()));
+							}
+						}
+						
+						if(i.getBoots() != null) nbti = new NBTItem(i.getBoots());
+						if (i.getBoots() != null && i.getBoots().getType() == Material.LEATHER_BOOTS){
+							if((i.getBoots().getItemMeta().getLore() != null && i.getBoots().getItemMeta().getLore().contains(rainbowLore)) || nbti.hasKey("RainbowArmor.version")){
+								i.setBoots(Utils.setArmorColor(i.getBoots()));
+							}
+						}
+						
 					}
 				}
 				

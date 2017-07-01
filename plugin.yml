@@ -1,9 +1,10 @@
 name: RainbowArmor
 main: com.electro2560.dev.RainbowArmor.RainbowArmor
-version: 1.5.0
+version: 1.6.0
 author: ElectroBoy2560
 description: >
              Leather armor that changes color like a rainbow!
+depend: [ItemNBTAPI]
 commands:
   RainbowArmor:
     aliases: [ra]

@@ -41,8 +41,4 @@ public class RainbowArmor extends JavaPlugin {
 		return instance;
 	}
 	
-	public String getVersion(){
-		return getDescription().getVersion();
-	}
-	
 }
